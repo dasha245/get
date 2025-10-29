@@ -29,4 +29,15 @@ class MCP4725:
             print(f"число: {number}, отправленные по I2C данные [0x{(self.address << 1):02X}, 0x{first_byte:2X}, 0x{second_byte:2X}]\n")
 
     def set_voltage(self, voltage):
-        
+        if (0>voltage or voltage > 4095):
+            print()
+        self.set_number(int((voltage/self.dynamic_range)*4095))
+
+if __name__ == "__main__":
+    try:
+        dac = MCP4725(5)
+        while True:
+            try:
+                voltage = float(input("введите напряжение: "))
+                dac.set_voltage(voltage)
+            
